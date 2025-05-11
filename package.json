@@ -17,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/deepesh-np/wanderLust/issues"
   },
-  "homepage": "https://github.com/deepesh-np/wanderLust#readme"
+  "homepage": "https://github.com/deepesh-np/wanderLust#readme",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.18.2",
+    "mongoose": "^8.14.1"
+  }
 }
