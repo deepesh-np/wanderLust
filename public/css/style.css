@@ -1,4 +1,7 @@
 body { 
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   font-family: "Plus Jakarta Sans", sans-serif !important;
 }
 
@@ -81,4 +84,10 @@ body {
   opacity: 0.2;
   background-color: white;
 }
-
+.container{
+  flex: 1;
+}
+.add-btn{
+  background-color: #fe424d !important;
+  border: none !important;
+}
