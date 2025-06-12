@@ -1,3 +1,3 @@
 "C:\Program Files\MongoDB\Server\8.0\bin\mongod.exe"
 
-then run mongosh in another bash
+then run mongosh in another cmd window

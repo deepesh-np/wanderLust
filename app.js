@@ -10,6 +10,7 @@ engine = require('ejs-mate');
 const wrapAsync = require('./utils/wrapAsync.js');
 const ExpressError = require('./utils/ExpressError.js');
 const { listingSchema } = require('./schema.js');
+const Review = require('./models/reviews.js');
 
 const MONGO_URL = 'mongodb://127.0.0.1:27017/wanderlust';
 
@@ -32,10 +33,22 @@ app.use(methodOverride('_method'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.engine('ejs', engine);
-
 app.get('/', (req, res) => {
-  res.send('Hi, I am root');
+  res.send(`
+    <html>
+      <head>
+        <title>Welcome</title>
+      </head>
+      <body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
+        <h1>Welcome Page</h1>
+        <button onclick="window.location.href='/listings'" style="padding: 10px 20px; font-size: 16px;">
+          Go to Listings
+        </button>
+      </body>
+    </html>
+  `);
 });
+
 
 const validateListing = (req, res, next) => {
   let { error } = listingSchema.validate(req.body);
@@ -145,6 +158,8 @@ app.delete(
 //   console.log("sample was saved");
 //   res.send("successful testing");
 // });
+
+
 
 app.all('*', (req, res, next) => {
   next(new ExpressError(404, 'Page Not Found!'));
