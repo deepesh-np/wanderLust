@@ -49,7 +49,6 @@ app.get('/', (req, res) => {
   `);
 });
 
-
 const validateListing = (req, res, next) => {
   let { error } = listingSchema.validate(req.body);
   if (error) {
@@ -159,7 +158,21 @@ app.delete(
 //   res.send("successful testing");
 // });
 
+//Reviews
+//Post route
+app.post('/listings/:id/reviews', async (req, res) => {
+  let listing = await Listing.findById(req.params.id);
+  let newReview = new Review(req.body.review);
 
+  listing.reviews.push(newReview);
+
+  await newReview.save();
+  await listing.save();
+
+  console.log('new REview Added');
+  res.redirect('/listings/${listing._id');
+  // res.send('Your Response has beem saved Succesfully');
+});
 
 app.all('*', (req, res, next) => {
   next(new ExpressError(404, 'Page Not Found!'));
