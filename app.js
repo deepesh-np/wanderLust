@@ -57,21 +57,21 @@ const validateListing = (req, res, next) => {
   //value	Object (validated data)	The input data (possibly sanitized) that passed the schema check.
   if (error) {
     let errMsg = error.details.map((el) => el.message).join(',');
-    throw new ExpressError(400, result.error);
+    throw new ExpressError(400, errMsg);
   } else {
     next();
   }
 };
 
 const validateReview = (req, res, next) => {
-  let {error} = reviewSchema.validate(req.body)
-   if (error) {
+  let { error } = reviewSchema.validate(req.body);
+  if (error) {
     let errMsg = error.details.map((el) => el.message).join(',');
-    throw new ExpressError(400, result.error);
+    throw new ExpressError(400, errMsg);
   } else {
     next();
   }
-}
+};
 
 //Index Route
 app.get(
@@ -175,21 +175,23 @@ app.delete(
 
 //Reviews
 //Post route
-app.post('/listings/:id/reviews', validateReview, wrapAsync (async(req, res) => {
-  let listing = await Listing.findById(req.params.id);
-  let newReview = new Review(req.body.review);
+app.post(
+  '/listings/:id/reviews',
+  // validateReview,
+  wrapAsync(async (req, res) => {
+    let listing = await Listing.findById(req.params.id);
+    let newReview = new Review(req.body.review);
 
-  listing.reviews.push(newReview);
+    listing.reviews.push(newReview);
 
-  await newReview.save();
-  await listing.save();
+    await newReview.save();
+    await listing.save();
 
-  console.log('new REview Added');
-  res.redirect(`/listings/${listing._id}`);
+    console.log('new REview Added');
+    res.redirect(`/listings/${listing._id}`);
 
-
-  // res.send('Your Response has beem saved Succesfully');
-})
+    // res.send('Your Response has beem saved Succesfully');
+  })
 );
 
 app.all('*', (req, res, next) => {
