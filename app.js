@@ -95,7 +95,7 @@ app.get(
   '/listings/:id',
   wrapAsync(async (req, res) => {
     let { id } = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate('reviews');
     res.render('listings/show.ejs', { listing });
   })
 );
@@ -174,7 +174,7 @@ app.delete(
 // });
 
 //Reviews
-//Post route
+//Post review route
 app.post(
   '/listings/:id/reviews',
   // validateReview,
@@ -191,6 +191,17 @@ app.post(
     res.redirect(`/listings/${listing._id}`);
 
     // res.send('Your Response has beem saved Succesfully');
+  })
+);
+
+//Delete review
+app.delete(
+  '/listings/:id/reviews/:reviewId',
+  wrapAsync(async (req, res) => {
+    let { id, reviewId } = req.params;
+    Review.findById(reviewId);
+
+    res.redirect(`/listings/${id}`)
   })
 );
 
