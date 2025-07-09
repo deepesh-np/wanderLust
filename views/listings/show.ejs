@@ -79,7 +79,7 @@
           <h6 class="card-subtitle"><%= review.comment %></h6>
           <p class="card-text"><%= review.rating %> stars</p>
         </div>
-        <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>" class="mb-3" method="POST">
+        <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" class="mb-3" method="POST">
            <button class="btn btn-sm bt-dark btn-outline-dark" style="background-color: rgb(24, 22, 22); color: whitesmoke;">Delete</button>
         </form>
       </div>
