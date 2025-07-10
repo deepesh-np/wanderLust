@@ -7,7 +7,6 @@ const ExpressError = require('../utils/ExpressError.js');
 const { listingSchema, reviewSchema } = require('../schema.js');
 const Listing = require('../models/listing.js');
 
-
 const validateListing = (req, res, next) => {
   let { error } = listingSchema.validate(req.body);
   //.validate() returns object error and value  this function uis from joi
@@ -58,6 +57,7 @@ router.post(
     }
     const newListing = new Listing(req.body.listing);
     await newListing.save();
+    req.flash('success', 'New listing created');
     res.redirect('/listings');
   })
 );

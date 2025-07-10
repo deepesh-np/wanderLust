@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const path = require('path');
 const methodOverride = require('method-override');
 engine = require('ejs-mate');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 const ExpressError = require('./utils/ExpressError.js');
 
@@ -31,6 +33,19 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+const sessionOption = {
+  secret: 'mysupersecretcode',
+  resave: false,
+  saveUninitialised: true,
+  cookie: {
+    expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    maxAge: 3 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+  },
+};
+app.use(session(sessionOption));
+app.use(flash()); //before the req and get post etc
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.engine('ejs', engine);
 app.get('/', (req, res) => {
@@ -47,6 +62,13 @@ app.get('/', (req, res) => {
       </body>
     </html>
   `);
+});
+
+app.use(flash()); //before the req and get post etc
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  next();
 });
 
 app.use('/listings', listings);
