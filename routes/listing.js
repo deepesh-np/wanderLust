@@ -30,12 +30,11 @@ router.get(
 );
 
 //New Route
-router.get(
-  '/new',
-  wrapAsync((req, res) => {
-    res.render('listings/new.ejs');
-  })
-);
+router.get('/new', (req, res) => {
+  //   wrapAsync((req, res) => {
+  res.render('listings/new.ejs');
+  //   })
+});
 
 //Show Route
 router.get(
@@ -92,6 +91,7 @@ router.put(
 
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+    req.flash('success', 'Listing Updated');
     res.redirect(`/listings/${id}`);
   })
 );
@@ -103,6 +103,7 @@ router.delete(
     let { id } = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
     console.log(deletedListing);
+    req.flash('success', 'Listing Deleted');
     res.redirect('/listings');
   })
 );

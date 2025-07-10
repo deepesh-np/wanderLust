@@ -36,7 +36,7 @@ app.use(methodOverride('_method'));
 const sessionOption = {
   secret: 'mysupersecretcode',
   resave: false,
-  saveUninitialised: true,
+  saveUninitialized: true,
   cookie: {
     expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
     maxAge: 3 * 24 * 60 * 60 * 1000,
@@ -68,6 +68,8 @@ app.use(flash()); //before the req and get post etc
 
 app.use((req, res, next) => {
   res.locals.success = req.flash('success');
+  console.log(res.locals.success);
+  
   next();
 });
 
