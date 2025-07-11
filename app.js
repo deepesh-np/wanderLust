@@ -8,11 +8,16 @@ const methodOverride = require('method-override');
 engine = require('ejs-mate');
 const session = require('express-session');
 const flash = require('connect-flash');
+//auth
+const passport = require('passport');
+const localStrategy = require('passport-local');
+const User = require('./models/user.js');
 
 const ExpressError = require('./utils/ExpressError.js');
 
-const listings = require('./routes/listing.js');
-const reviews = require('./routes/review.js');
+const listingsRouter = require('./routes/listing.js');
+const reviewsRouter = require('./routes/review.js');
+const usersRouter = require('./routes/users.js');
 
 const MONGO_URL = 'mongodb://127.0.0.1:27017/wanderlust';
 
@@ -33,6 +38,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+app.use(express.static(path.join(__dirname, 'public')));
+app.engine('ejs', engine);
+
 const sessionOption = {
   secret: 'mysupersecretcode',
   resave: false,
@@ -46,8 +54,19 @@ const sessionOption = {
 app.use(session(sessionOption));
 app.use(flash()); //before the req and get post etc
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.engine('ejs', engine);
+app.use(passport.session());
+app.use(passport.initialize());
+passport.use(new localStrategy(User.authenticate())); //returns function that is used to varify pass and username
+
+// | Line                             | What's Happening       | Why                         |
+// | -------------------------------- | ---------------------- | --------------------------- |
+// | `app.use(passport.initialize())` | Sets up passport       | Required to start passport  |
+// | `app.use(passport.session())`    | Enables login sessions | For session-based auth      |
+// | `passport.use(...)`              | Defines auth strategy  | Tells Passport how to login |
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.get('/', (req, res) => {
   res.send(`
     <html>
@@ -73,8 +92,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/listings', listings);
-app.use('/listings/:id/reviews', reviews);
+app.use('/listings', listingsRouter);
+app.use('/listings/:id/reviews', reviewsRouter);
+app.use('/', usersRouter);
 
 app.listen(8080, () => {
   console.log('server is listening to port 8080');
