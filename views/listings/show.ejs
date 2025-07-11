@@ -22,7 +22,7 @@
     </div>
   </div>
   <br />
-  <% if(currUser._id.equals(listing.owner)) { %>
+  <% if( currUser && currUser._id.equals(listing.owner._id)) { %>
   <div class="btns offset-3 mb-4">
     <!-- Edit button -->
     <a
