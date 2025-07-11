@@ -88,6 +88,7 @@ app.use(flash()); //before the req and get post etc
 app.use((req, res, next) => {
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
+  res.locals.currUser = req.user;
   // console.log(res.locals.success);
   next();
 });
