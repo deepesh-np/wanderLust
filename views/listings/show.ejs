@@ -12,14 +12,17 @@
       class="card-img-top show-img"
       alt="listing_img" />
     <div class="card-body">
+      <i><p class="card-text">Owned by <%= listing.owner.username %></p></i>
+      <p class="card-text"><%= listing.description %></p>
       <p class="card-text">
-        <%= listing.description %> &#8377; <%=
-        listing.price.toLocaleString("en-IN") %> <%= listing.location %> <%=
-        listing.country %>
+        &#8377; <%=listing.price.toLocaleString("en-IN") %>
       </p>
+      <p class="card-text"><%= listing.location %></p>
+      <p><%= listing.country %></p>
     </div>
   </div>
   <br />
+  <% if(currUser._id.equals(listing.owner)) { %>
   <div class="btns offset-3 mb-4">
     <!-- Edit button -->
     <a
@@ -33,7 +36,7 @@
       <button class="btn btn-dark offset-4">Delete</button>
     </form>
   </div>
-
+  <% } %>
   <!-- review sction -->
 
   <div class="col-8 offset-3">
@@ -79,8 +82,15 @@
           <h6 class="card-subtitle"><%= review.comment %></h6>
           <p class="card-text"><%= review.rating %> stars</p>
         </div>
-        <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" class="mb-3" method="POST">
-           <button class="btn btn-sm bt-dark btn-outline-dark" style="background-color: rgb(24, 22, 22); color: whitesmoke;">Delete</button>
+        <form
+          action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+          class="mb-3"
+          method="POST">
+          <button
+            class="btn btn-sm bt-dark btn-outline-dark"
+            style="background-color: rgb(24, 22, 22); color: whitesmoke">
+            Delete
+          </button>
         </form>
       </div>
       <% } %>
