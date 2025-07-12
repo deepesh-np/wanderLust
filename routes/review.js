@@ -7,7 +7,9 @@ const Review = require('../models/reviews.js');
 const Listing = require('../models/listing.js');
 const { isLoggedIn, validateReview, isAuthor } = require('../middleware.js');
 const ExpressError = require('../utils/ExpressError.js');
-//Reviews
+
+
+
 //Post review route
 router.post(
   '/',
