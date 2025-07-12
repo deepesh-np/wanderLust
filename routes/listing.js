@@ -6,22 +6,8 @@ const wrapAsync = require('../utils/wrapAsync.js');
 const { isLoggedIn, isOwner, validateListing } = require('../middleware.js');
 const listingController = require('../controllers/listing.js');
 
-//Index Route
-router.get('/', wrapAsync(listingController.index));
-
 //New Route
 router.get('/new', isLoggedIn, listingController.renderNewForm);
-
-//Show Route
-router.get('/:id', wrapAsync(listingController.show));
-
-//Create Route
-router.post(
-  '/',
-  isLoggedIn,
-  validateListing,
-  wrapAsync(listingController.createNewListing)
-);
 
 //Edit Route
 router.get(
@@ -31,23 +17,31 @@ router.get(
   wrapAsync(listingController.editListing)
 );
 
-//Update Route
-router.put(
-  '/:id',
+router
+.route("/")
+.get( wrapAsync(listingController.index))  //new
+.post( //create
+  isLoggedIn,
+  validateListing,
+  wrapAsync(listingController.createNewListing)
+);
+
+router.route("/:id")
+.get( wrapAsync(listingController.show))  //show 
+.put( //update
   isLoggedIn,
   isOwner,
   validateListing,
   wrapAsync(listingController.updateListing)
-);
-
-//Delete Route
-router.delete(
-  '/:id',
+)
+.delete( //destroy
   isLoggedIn,
   isOwner,
   wrapAsync(listingController.deleteListing)
 );
 
+
+//Delete Route
 // router.get("/testListing", async (req, res) => {
 //   let sampleListing = new Listing({
 //     title: "My New Villa",
