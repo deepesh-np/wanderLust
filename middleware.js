@@ -1,6 +1,7 @@
 /** @format */
 
-const Listing = require('./models/listing');
+const Listing = require('./models/listing.js');
+const Review = require('./models/reviews.js');
 
 const ExpressError = require('./utils/ExpressError.js');
 const { listingSchema, reviewSchema } = require('./schema.js');
@@ -8,7 +9,7 @@ const { listingSchema, reviewSchema } = require('./schema.js');
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.session.redirectUrl = req.originalUrl;
-    req.flash('error', 'you must be logged in to create a listing');
+    req.flash('error', 'you must be logged in');
     return res.redirect('/login');
   }
   next();
@@ -53,4 +54,16 @@ module.exports.validateReview = (req, res, next) => {
   } else {
     next();
   }
+};
+
+module.exports.isAuthor = async (req, res, next) => {
+  let { reviewId } = req.params;
+  let { id } = req.params;
+  let review = await Review.findById(reviewId);
+  if (!review.author._id.equals(res.locals.currUser._id)) {
+    req.flash('error', "You don't have this permission");
+    return res.redirect(`/listings/${id}`);
+  }
+
+  next();
 };

@@ -5,16 +5,18 @@ const router = express.Router({ mergeParams: true });
 const wrapAsync = require('../utils/wrapAsync.js');
 const Review = require('../models/reviews.js');
 const Listing = require('../models/listing.js');
-
+const { isLoggedIn, validateReview, isAuthor } = require('../middleware.js');
+const ExpressError = require('../utils/ExpressError.js');
 //Reviews
 //Post review route
 router.post(
   '/',
+  isLoggedIn,
   //validateReview,
   wrapAsync(async (req, res) => {
     let listing = await Listing.findById(req.params.id);
     let newReview = new Review(req.body.review);
-
+    newReview.author = req.user._id;
     listing.reviews.push(newReview);
 
     await newReview.save();
@@ -31,6 +33,8 @@ router.post(
 //Delete review
 router.delete(
   '/:reviewId',
+  isLoggedIn,
+  isAuthor,
   wrapAsync(async (req, res) => {
     let { id, reviewId } = req.params;
 
