@@ -41,7 +41,19 @@ const listingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
-  coordinates
+  category: {
+    type: String,
+    enum: [
+      'mountain',
+      'arctic',
+      'farm',
+      'desert',
+      'iconic cities',
+      'camping',
+      'surfing',
+    ],
+    required: true,
+  },
 });
 
 listingSchema.post('findOneAndDelete', async (listing) => {
