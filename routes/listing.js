@@ -10,6 +10,22 @@ const { storage } = require('../cloudConfig.js');
 // const upload = multer({ dest: storage }); //auto created
 const upload = multer({ storage });
 
+// Search route
+router.get('/search', async (req, res) => {
+  const query = req.query.q;
+
+  let listings = [];
+  if (query) {
+    listings = await Listing.find({
+      title: { $regex: query, $options: 'i' }, // case-insensitive regex
+    });
+  } else {
+    listings = await Listing.find({});
+  }
+
+  res.render('listings/index', {  allListings: listings  });
+});
+
 //New Route
 router.get('/new', isLoggedIn, listingController.renderNewForm);
 
@@ -67,5 +83,9 @@ router
 //   console.log("sample was saved");
 //   res.send("successful testing");
 // });
+
+// const express = require('express');
+// const router = express.Router();
+const Listing = require('../models/listing');
 
 module.exports = router;
