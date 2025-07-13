@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/deepesh-np/wanderLust#readme",
   "dependencies": {
+    "@maptiler/client": "^2.4.0",
     "bootstrap": "^5.3.6",
     "cloudinary": "^2.7.0",
     "connect-flash": "^0.1.1",

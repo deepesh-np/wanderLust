@@ -11,6 +11,7 @@
     #filter {
       display: flex;
       flex-wrap: wrap;
+      align-items: center;
     }
     .filter {
       text-align: center;
@@ -32,37 +33,71 @@
       <div><i class="fa-solid fa-bed"></i></div>
       <p>Rooms</p>
     </div>
-    <div class="filter"onclick="window.location.href='/listings?category=iconic cities'">
+    <div
+      class="filter"
+      onclick="window.location.href='/listings?category=iconic cities'">
       <div><i class="fa-solid fa-fire"></i></div>
       <p>Iconic Cities</p>
     </div>
-    <div class="filter"onclick="window.location.href='/listings?category=mountain'">
+    <div
+      class="filter"
+      onclick="window.location.href='/listings?category=mountain'">
       <div><i class="fa-solid fa-mountain-city"></i></div>
       <p>Mountain</p>
     </div>
-    <div class="filter" onclick="window.location.href='/listings?category=surfing'">
+    <div
+      class="filter"
+      onclick="window.location.href='/listings?category=surfing'">
       <div><i class="fa-solid fa-mountain"></i></div>
       <p>Surfing</p>
     </div>
-    <div class="filter" onclick="window.location.href='/listings?category=desert'">
+    <div
+      class="filter"
+      onclick="window.location.href='/listings?category=desert'">
       <div><i class="fa-solid fa-chess-rook"></i></div>
       <p>Desert</p>
     </div>
-    <div class="filter" onclick="window.location.href='/listings?category=camping'">
+    <div
+      class="filter"
+      onclick="window.location.href='/listings?category=camping'">
       <div><i class="fa-solid fa-campground"></i></div>
       <p>Camping</p>
     </div>
-    <div class="filter" onclick="window.location.href='/listings?category=farm'">
+    <div
+      class="filter"
+      onclick="window.location.href='/listings?category=farm'">
       <div><i class="fa-solid fa-cow"></i></div>
       <p>Farms</p>
     </div>
-    <div class="filter" onclick="window.location.href='/listings?category=arctic'">
+    <div
+      class="filter"
+      onclick="window.location.href='/listings?category=arctic'">
       <div><i class="fa-solid fa-snowflake"></i></div>
       <p>Arctic</p>
     </div>
+
     <div class="filter">
       <div><i class="fa-solid fa-person-swimming"></i></div>
       <p><a href="/listings"></a>Amazing Tools</p>
+    </div>
+    
+    <div
+      class="filter"
+     >
+      <div><i class="fa-solid fa-igloo"></i></div>
+      <p>Dome</p>
+    </div>
+
+    <div class="tax-toggle">
+    <div class="form-check-reverse form-switch">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        role="switch"
+        id="flexSwitchCheckDefault" />
+      <label class="form-check-label" for="flexSwitchCheckDefault"
+        >Display total after tax</label
+      >
     </div>
   </div>
   <ul>
@@ -85,6 +120,7 @@
             <p class="card-text">
               <%= listing.description %> <br />
               &#8377;<%= (listing.price || 0).toLocaleString("en-IN") %>/night
+              <i class="tax-info"> &nbsp; +18% GST</i>
             </p>
           </div>
         </div>
@@ -92,4 +128,19 @@
       <% } %>
     </div>
   </ul>
+  
+<script>
+  let taxSwitch = document.getElementById("flexSwitchCheckDefault")
+  taxSwitch.addEventListener("click", ()=>{
+    // console.log("clicked");
+    let taxInfo = document.getElementsByClassName('tax-info')
+    for (info of taxInfo) {
+      if(info.style.display != "inline"){
+        info.style.display = "inline";
+      }else {
+        info.style.display = "none";
+      }
+    }
+  })
+</script>
 </body>
