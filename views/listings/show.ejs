@@ -16,8 +16,15 @@
       <p class="card-text"><%= listing.description %></p>
       <p class="card-text">
         &#8377; <%=listing.price.toLocaleString("en-IN") %>
-      </p>
-      <p class="card-text"><%= listing.location %></p>
+      </p> 
+      <div style="display: flex; justify-content: space-between;">
+  <p class="card-text">
+    <%= listing.location %> 
+  </p>
+  <p class="card-text">
+    <strong>Category: <%= listing.category %></strong>
+  </p>
+</div>
       <p><%= listing.country %></p>
     </div>
   </div>

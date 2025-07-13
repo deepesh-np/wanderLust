@@ -47,9 +47,7 @@
 
       <div class="mb-3">
         <label for="image" class="form-label">Upload Listing Image</label>
-        <input name="listing[image]" 
-        type="file" 
-        class="form-control" />
+        <input name="listing[image]" type="file" class="form-control" />
       </div>
 
       <div class="row">
@@ -77,7 +75,42 @@
         </div>
       </div>
 
-      <div class="mb-3">
+      <!-- //cat -->
+      <div class="row">
+        <div class="mb-3 col-md-4">
+          <!-- <label for="category" class="form-label">Category</label> -->
+
+          <label for="category" class="form-label">Category</label>
+          <select
+            name="listing[category]"
+            id="category"
+            class="form-select"
+            required>
+            <option value="" disabled selected>Select a category</option>
+            <option value="mountain">Mountain</option>
+            <option value="arctic">Arctic</option>
+            <option value="iconic cities">Iconic City</option>
+            <option value="farm">Farm</option>
+            <option value="desert">Desert</option>
+            <option value="camping">Camping</option>
+            <option value="surfing">Surfing</option>
+          </select>
+          <div class="invalid-feedback">Choose Category</div>
+        </div>
+
+        <div class="mb-3 col-md-8">
+          <label for="location" class="form-label">Location</label>
+          <input
+            name="listing[location]"
+            placeholder="manali, Himachal pradesh"
+            type="text"
+            class="form-control"
+            required />
+          <div class="invalid-feedback">Please enter a valid Location</div>
+        </div>
+      </div>
+
+      <!-- <div class="mb-3">
         <label for="location" class="form-label">Location</label>
         <input
           name="listing[location]"
@@ -86,7 +119,7 @@
           class="form-control"
           required />
         <div class="invalid-feedback">Please enter a valid Location</div>
-      </div>
+      </div> -->
 
       <br />
       <button class="btn btn-dark add-btn">Add</button>

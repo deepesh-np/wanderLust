@@ -35,7 +35,7 @@
         </div>
 
         <div class="mb-3">
-          Original Listing Image <br>
+          Original Listing Image <br />
           <img src="<%= originalImageUrl %>" alt="" />
         </div>
 
@@ -73,15 +73,38 @@
           </div>
         </div>
 
-        <div class="mb-3">
-          <label for="location" class="form-label">Location</label>
-          <input
-            class="form-control"
-            name="listing[location]"
-            value="<%= listing.location %>"
-            type="text"
-            required />
-          <div class="invalid-feedback">Please enter a valid Location</div>
+        <div class="row">
+         <div class="mb-3 col-md-4">
+
+          <label for="category" class="form-label">Category</label>
+          <select
+          name="listing[category]"
+          id="category"
+          class="form-select"
+          required
+          >
+         <option value="" disabled <%= !listing.category ? 'selected' : '' %>>Edit the Category</option>
+         <option value="mountain" <%= listing.category === 'mountain' ? 'selected' : '' %>>Mountain</option>
+         <option value="arctic" <%= listing.category === 'arctic' ? 'selected' : '' %>>Arctic</option>
+         <option value="iconic cities" <%= listing.category === 'iconic cities' ? 'selected' : '' %>>Iconic City</option>
+         <option value="farm" <%= listing.category === 'farm' ? 'selected' : '' %>>Farm</option>
+         <option value="desert" <%= listing.category === 'desert' ? 'selected' : '' %>>Desert</option>
+         <option value="camping" <%= listing.category === 'camping' ? 'selected' : '' %>>Camping</option>
+         <option value="surfing" <%= listing.category === 'surfing' ? 'selected' : '' %>>Surfing</option>
+         </select>
+          <div class="invalid-feedback">Choose Category</div>
+          </div>
+
+          <div class="mb-3 col-md-8">
+            <label for="location" class="form-label">Location</label>
+            <input
+              class="form-control"
+              name="listing[location]"
+              value="<%= listing.location %>"
+              type="text"
+              required />
+            <div class="invalid-feedback">Please enter a valid Location</div>
+          </div>
         </div>
 
         <button class="btn btn-dark edit-btn">Edit</button>
