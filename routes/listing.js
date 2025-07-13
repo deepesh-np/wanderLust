@@ -23,6 +23,9 @@ router.get(
 
 router
   .route('/')
+
+  //query Route
+  .get(wrapAsync(listingController.params))
   .get(wrapAsync(listingController.index)) //new
   .post(
     // create

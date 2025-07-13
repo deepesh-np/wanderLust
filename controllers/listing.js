@@ -3,6 +3,19 @@
 const Listing = require('../models/listing.js');
 const ExpressError = require('../utils/ExpressError.js');
 
+//Query Route
+module.exports.params = async (req, res) => {
+  const { category } = req.query;
+
+  let filter = {};
+  if (category) {
+    filter.category = category;
+  }
+
+  const listings = await Listing.find(filter);
+  res.render('listings/index', { allListings: listings });
+};
+
 //Index Route
 module.exports.index = async (req, res) => {
   const allListings = await Listing.find({});
