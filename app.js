@@ -68,19 +68,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.get('/', (req, res) => {
-  res.send(`
-    <html>
-      <head>
-        <title>Welcome</title>
-      </head>
-      <body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
-        <h1>Welcome Page</h1>
-        <button onclick="window.location.href='/listings'" style="padding: 10px 20px; font-size: 16px;">
-          Go to Listings
-        </button>
-      </body>
-    </html>
-  `);
+  res.send(res.redirect('/listings'));
 });
 
 app.use(flash()); //before the req and get post etc
