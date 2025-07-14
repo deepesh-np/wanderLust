@@ -1,4 +1,5 @@
 /** @format */
+// @ts-ignore
 require('dotenv').config();
 const express = require('express');
 const app = express();
@@ -7,6 +8,7 @@ const path = require('path');
 const methodOverride = require('method-override');
 engine = require('ejs-mate');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
 //auth
 const passport = require('passport');
@@ -19,8 +21,9 @@ const listingsRouter = require('./routes/listing.js');
 const reviewsRouter = require('./routes/review.js');
 const usersRouter = require('./routes/users.js');
 
-const MONGO_URL = 'mongodb://127.0.0.1:27017/wanderlust';
-
+// const MONGO_URL = 'mongodb://127.0.0.1:27017/wanderlust';
+const DB_URL = process.env.DB_URL;
+// console.log('Loaded DB URL:', process.env.DB_URL);
 main()
   .then(() => {
     console.log('connected to DB');
@@ -30,7 +33,11 @@ main()
   });
 
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  await mongoose.connect(DB_URL);
+  mongoose
+    .connect(process.env.DB_URL)
+    .then(() => console.log('✅ MongoDB connected successfully'))
+    .catch((err) => console.error('❌ MongoDB connection failed:', err));
 }
 
 app.set('view engine', 'ejs');
@@ -41,7 +48,19 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.engine('ejs', engine);
 
+const store = MongoStore.create({
+  mongoUrl: DB_URL,
+  crypto: {
+    secret: 'mysupersecretcode',
+  },
+  touchAfter: 24 * 3600,
+});
+store.on('error', function (err) {
+  console.log('ERROR in MONGO SESSION STORE', err);
+});
+
 const sessionOption = {
+  store,
   secret: 'mysupersecretcode',
   resave: false,
   saveUninitialized: true,
@@ -51,6 +70,7 @@ const sessionOption = {
     httpOnly: true,
   },
 };
+
 app.use(session(sessionOption));
 app.use(flash()); //before the req and get post etc
 
